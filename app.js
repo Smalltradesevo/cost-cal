@@ -427,6 +427,30 @@ function showStep(step) {
   const currentStepEl = document.getElementById(`step-${step}`);
   if (currentStepEl) {
     currentStepEl.classList.add('active');
+    
+    // Scroll to top of the new step and focus first input
+    setTimeout(() => {
+      // Scroll to the step header
+      const stepHeader = currentStepEl.querySelector('.step-header');
+      if (stepHeader) {
+        stepHeader.scrollIntoView({ 
+          behavior: 'smooth', 
+          block: 'start' 
+        });
+      }
+      
+      // Focus on the first input field in this step
+      const firstInput = currentStepEl.querySelector('input[type="text"], input[type="number"], textarea');
+      if (firstInput) {
+        setTimeout(() => {
+          firstInput.focus();
+          firstInput.scrollIntoView({ 
+            behavior: 'smooth', 
+            block: 'center' 
+          });
+        }, 300); // Small delay to ensure smooth scroll completes
+      }
+    }, 100); // Small delay to ensure DOM is updated
   }
   
   updateProgress();
