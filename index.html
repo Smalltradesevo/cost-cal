@@ -187,7 +187,7 @@
       <div class="hero-video-section">
         <div class="hero-content">
           <h1 class="hero-title">Turn Your Side Hustle Into Your Main Thing</h1>
-          <p class="hero-subtitle">Join our market-dominating referral system and get paid to connect skilled tradespeople with the work they need</p>
+          <p class="hero-subtitle">Join our market-dominating referral system and get paid to connect skilled tradespeople with discounts, incentives, and volume pricing they deserve</p>
           
           <div class="hero-video-container">
             <div class="video-placeholder hero-video">
@@ -778,5 +778,24 @@
 
   <!-- Include JavaScript -->
   <script src="app.js"></script>
+  
+  <!-- Additional JavaScript for Hero Button -->
+  <script>
+    // Scroll to calculator function
+    function scrollToCalculator() {
+      const calculator = document.getElementById('reportContainer');
+      if (calculator) {
+        calculator.scrollIntoView({ 
+          behavior: 'smooth', 
+          block: 'start' 
+        });
+      }
+    }
+
+    // Hero video function
+    function playHeroVideo() {
+      alert('Hero video would play here. This is where your side hustle recruitment video will be embedded.');
+    }
+  </script>
 </body>
 </html>
