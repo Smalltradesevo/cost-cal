@@ -1,22 +1,782 @@
-PS C:\Users\sholc\projects\cost-cal> git pull
-remote: Enumerating objects: 5, done.
-remote: Counting objects: 100% (5/5), done.
-remote: Compressing objects: 100% (3/3), done.
-remote: Total 3 (delta 2), reused 0 (delta 0), pack-reused 0 (from 0)
-Unpacking objects: 100% (3/3), 966 bytes | 48.00 KiB/s, done.
-From https://github.com/Smalltradesevo/cost-cal
-   d0736ab..b021c98  main       -> origin/main
-error: Your local changes to the following files would be overwritten by merge:
-        index.html
-Please commit your changes or stash them before you merge.
-Aborting
-Merge with strategy ort failed.
-PS C:\Users\sholc\projects\cost-cal> git push
-To https://github.com/Smalltradesevo/cost-cal.git
- ! [rejected]        main -> main (non-fast-forward)
-error: failed to push some refs to 'https://github.com/Smalltradesevo/cost-cal.git'
-hint: Updates were rejected because the tip of your current branch is behind
-hint: its remote counterpart. If you want to integrate the remote changes,
-hint: use 'git pull' before pushing again.
-hint: See the 'Note about fast-forwards' in 'git push --help' for details.
-PS C:\Users\sholc\projects\cost-cal>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Small Trades Evolution - Freedom Forecast Dashboard</title>
+  
+  <!-- External Stylesheets -->
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  
+  <!-- External Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  
+  <!-- Hero Video Styles -->
+  <style>
+    .hero-video-section {
+      background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+      color: white;
+      padding: 60px 20px;
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    
+    .hero-content {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    
+    .hero-title {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      line-height: 1.2;
+    }
+    
+    .hero-subtitle {
+      font-size: 1.3rem;
+      margin-bottom: 40px;
+      opacity: 0.9;
+      line-height: 1.5;
+    }
+    
+    .hero-video-container {
+      margin: 40px 0;
+      display: flex;
+      justify-content: center;
+    }
+    
+    .hero-video {
+      max-width: 600px;
+      width: 100%;
+      aspect-ratio: 16/9;
+      background: rgba(0,0,0,0.3);
+      border: 3px solid rgba(255,255,255,0.2);
+      border-radius: 16px;
+      overflow: hidden;
+      position: relative;
+    }
+    
+    .hero-play-btn {
+      width: 80px;
+      height: 80px;
+      background: rgba(255,255,255,0.9);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    }
+    
+    .hero-play-btn:hover {
+      background: white;
+      transform: scale(1.1);
+    }
+    
+    .hero-play-btn .play-icon {
+      font-size: 32px;
+      color: #1e3a8a;
+      margin-left: 4px;
+    }
+    
+    .hero-video-info {
+      text-align: left;
+    }
+    
+    .hero-video-info h3 {
+      font-size: 1.5rem;
+      margin-bottom: 8px;
+      color: white;
+    }
+    
+    .hero-video-info p {
+      font-size: 1rem;
+      opacity: 0.9;
+      margin-bottom: 8px;
+    }
+    
+    .hero-thumbnail {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(45deg, rgba(30,58,138,0.7), rgba(59,130,246,0.7));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .hero-avatar {
+      font-size: 4rem;
+      margin-bottom: 20px;
+    }
+    
+    .opportunity-text {
+      text-align: center;
+    }
+    
+    .opportunity-line {
+      background: rgba(255,255,255,0.1);
+      padding: 8px 16px;
+      margin: 8px 0;
+      border-radius: 20px;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    
+    .hero-cta {
+      margin-top: 40px;
+    }
+    
+    .btn-hero {
+      background: #10b981;
+      color: white;
+      border: none;
+      padding: 18px 36px;
+      font-size: 1.2rem;
+      font-weight: 600;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 25px rgba(16,185,129,0.3);
+      margin-bottom: 12px;
+      display: inline-block;
+    }
+    
+    .btn-hero:hover {
+      background: #059669;
+      transform: translateY(-2px);
+      box-shadow: 0 12px 35px rgba(16,185,129,0.4);
+    }
+    
+    .cta-subtext {
+      color: rgba(255,255,255,0.8);
+      font-size: 0.9rem;
+      margin: 0;
+    }
+    
+    @media (max-width: 768px) {
+      .hero-title {
+        font-size: 2.2rem;
+      }
+      
+      .hero-subtitle {
+        font-size: 1.1rem;
+      }
+      
+      .hero-video-section {
+        padding: 40px 15px;
+      }
+      
+      .hero-play-btn {
+        width: 60px;
+        height: 60px;
+      }
+      
+      .hero-play-btn .play-icon {
+        font-size: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="main-container">
+    <header>
+      <!-- Hero Video Section -->
+      <div class="hero-video-section">
+        <div class="hero-content">
+          <h1 class="hero-title">Turn Your Side Hustle Into Your Main Thing</h1>
+          <p class="hero-subtitle">Join our market-dominating referral system and get paid to connect skilled tradespeople with the work they need</p>
+          
+          <div class="hero-video-container">
+            <div class="video-placeholder hero-video">
+              <div class="video-overlay">
+                <div class="play-button hero-play-btn" onclick="playHeroVideo()">
+                  <div class="play-icon">▶</div>
+                </div>
+                <div class="video-info hero-video-info">
+                  <h3>The Missing Piece</h3>
+                  <p>Discover how you can become part of our market-dominating machine</p>
+                  <span class="video-duration">2:00</span>
+                </div>
+              </div>
+              <div class="video-thumbnail hero-thumbnail">
+                <div class="thumbnail-content">
+                  <div class="hero-avatar">💼</div>
+                  <div class="opportunity-text">
+                    <div class="opportunity-line">Market Dominating System</div>
+                    <div class="opportunity-line">$500-$2,000+ Per Referral</div>
+                    <div class="opportunity-line">Limited Territories Available</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="hero-cta">
+            <button class="btn-hero" onclick="scrollToCalculator()">
+              Calculate Your Freedom Forecast →
+            </button>
+            <p class="cta-subtext">See your income potential in 5 minutes</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="brand-header">
+        <div class="logo-container">
+          <div class="logo-icon">
+            <img src="https://raw.githubusercontent.com/Smalltradesevo/cost-cal/main/assets/images/buisness-expenses.png" alt="Small Trades Evolution Logo" style="width: 100%; height: 100%; object-fit: contain;">
+          </div>
+        </div>
+        <div>
+          <h1 class="brand-title">Freedom Forecast</h1>
+          <p class="tagline">Small Trades Evolution - Relationships that benefit members & partners</p>
+        </div>
+      </div>
+      
+      <!-- Welcome Content Section -->
+      <div class="welcome-section">
+        <div class="welcome-content">
+          <h2 class="welcome-title">Your Journey to Financial Freedom Starts Here</h2>
+          <p class="welcome-description">
+            At Small Trades Evolution, we believe every skilled tradesperson deserves financial independence. 
+            This powerful calculator will show you exactly how our proven referral system can transform your 
+            income and accelerate your path to the life you've always dreamed of.
+          </p>
+          
+          <div class="benefits-grid">
+            <div class="benefit-item">
+              <div class="benefit-icon">
+                <img src="https://raw.githubusercontent.com/Smalltradesevo/cost-cal/main/assets/images/dart.png" alt="Target goals icon">
+              </div>
+              <h3>Crystal Clear Goals</h3>
+              <p>See exactly how many referrals you need for each life milestone</p>
+            </div>
+            <div class="benefit-item">
+              <div class="benefit-icon">
+                <img src="https://raw.githubusercontent.com/Smalltradesevo/cost-cal/main/assets/images/exponentialgrowth.png" alt="Growth chart icon">
+              </div>
+              <h3>Compound Growth</h3>
+              <p>Watch how weekly referrals compound into life-changing income</p>
+            </div>
+            <div class="benefit-item">
+              <div class="benefit-icon">
+                <img src="https://raw.githubusercontent.com/Smalltradesevo/cost-cal/main/assets/images/pathway-lightingbolt.png" alt="Lightning bolt icon">
+              </div>
+              <h3>Multiple Pathways</h3>
+              <p>Choose your pace: Starter, Active, or Elite performance levels</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Welcome Video -->
+        <div class="video-container">
+          <div class="video-placeholder welcome-video">
+            <div class="video-overlay">
+              <div class="play-button" onclick="playWelcomeVideo()">
+                <div class="play-icon">▶</div>
+              </div>
+              <div class="video-info">
+                <h3>Welcome Message</h3>
+                <p>Personal greeting from our founder</p>
+                <span class="video-duration">2:30</span>
+              </div>
+            </div>
+            <div class="video-thumbnail">
+              <div class="thumbnail-content">
+                <div class="speaker-avatar">👨‍💼</div>
+                <div class="waveform">
+                  <div class="wave"></div>
+                  <div class="wave"></div>
+                  <div class="wave"></div>
+                  <div class="wave"></div>
+                  <div class="wave"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="intro-banner" id="introBanner">
+      <div class="banner-content">
+        <h3>Ready to Calculate Your Freedom?</h3>
+        <p class="intro-text">This 5-step process will create your personalized roadmap to financial independence. You'll discover exactly how our referral system can fund your business, secure your family, and achieve your wildest dreams.</p>
+        
+        <!-- Explanation Video -->
+        <div class="explanation-video-container">
+          <div class="video-placeholder explanation-video">
+            <div class="video-overlay">
+              <div class="play-button" onclick="playExplanationVideo()">
+                <div class="play-icon">▶</div>
+              </div>
+              <div class="video-info">
+                <h4>How This Calculator Works</h4>
+                <p>Quick overview of the 5-step process</p>
+                <span class="video-duration">1:45</span>
+              </div>
+            </div>
+            <div class="video-thumbnail explanation-thumb">
+              <div class="thumbnail-content">
+                <div class="calculator-icon">🧮</div>
+                <div class="step-indicators">
+                  <span class="step-badge">1</span>
+                  <span class="step-badge">2</span>
+                  <span class="step-badge">3</span>
+                  <span class="step-badge">4</span>
+                  <span class="step-badge">5</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <button class="btn-dismiss" onclick="hideIntro()">Let's Build Your Future</button>
+      </div>
+    </div>
+
+    <div class="dashboard-container" id="reportContainer">
+      <div class="progress-container">
+        <div class="progress-bar">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+        <div class="progress-info">
+          <span class="progress-text" id="progressText">Step 1 of 5</span>
+          <div class="step-indicator" id="stepIndicator">
+            <div class="step-dot active"></div>
+            <div class="step-dot"></div>
+            <div class="step-dot"></div>
+            <div class="step-dot"></div>
+            <div class="step-dot"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="content-area">
+        <!-- Step 1: Quick Info + Vision Board -->
+        <div id="step-1" class="step active">
+          <div class="step-header">
+            <h2 class="step-title">👋 Let's Get Started</h2>
+            <p class="step-subtitle">First, tell us who we're building this forecast for</p>
+          </div>
+          
+          <!-- Quick Lead Capture -->
+          <div class="lead-capture-section">
+            <div class="lead-form">
+              <div class="form-group">
+                <label class="form-label">What's your first name?</label>
+                <input type="text" id="firstName" class="form-input vision-input" placeholder="Enter your first name" required onchange="checkVisionCompletion()">
+              </div>
+              <div class="form-group">
+                <label class="form-label">What trade or business are you in?</label>
+                <input type="text" id="tradeType" class="form-input vision-input" placeholder="e.g., Electrician, Plumber, HVAC, Contractor" onchange="checkVisionCompletion()">
+              </div>
+            </div>
+          </div>
+          
+          <div class="section-divider">
+            <h3 class="divider-title">✨ Now Let's Paint Your Vision</h3>
+            <p class="divider-subtitle">Help us understand what financial freedom looks like for you</p>
+          </div>
+          
+          <div class="vision-grid">
+            <div class="vision-card">
+              <div class="card-decoration"></div>
+              <div class="vision-card-icon">
+                <img src="https://raw.githubusercontent.com/Smalltradesevo/cost-cal/main/assets/images/dreamhomesmall.png" alt="Home icon">
+              </div>
+              <label class="form-label">Current Home Situation</label>
+              <input type="text" class="form-input vision-input" placeholder="e.g., Own a 3BR house in suburban Dallas" onchange="checkVisionCompletion()">
+              <div class="vision-hint">Do you own or rent? Describe your current living situation.</div>
+            </div>
+            
+            <div class="vision-card">
+              <div class="card-decoration"></div>
+              <div class="vision-card-icon">
+                <img src="https://raw.githubusercontent.com/Smalltradesevo/cost-cal/main/assets/images/dreamhome.png" alt="Dream home icon">
+              </div>
+              <label class="form-label">Dream Home</label>
+              <textarea class="form-textarea vision-input" rows="3" placeholder="4BR/3BA with pool, large kitchen, home office, mountain views..." onchange="checkVisionCompletion()"></textarea>
+              <div class="vision-hint">Bedrooms, bathrooms, special features, location, outdoor space...</div>
+            </div>
+            
+            <div class="vision-card">
+              <div class="card-decoration"></div>
+              <div class="vision-card-icon">🚗</div>
+              <label class="form-label">Vehicle Dreams</label>
+              <input type="text" class="form-input vision-input" placeholder="Tesla Model S, Ford F-150, family SUV, classic car..." onchange="checkVisionCompletion()">
+              <div class="vision-hint">Current cars, dream vehicles, recreational vehicles...</div>
+            </div>
+            
+            <div class="vision-card">
+              <div class="card-decoration"></div>
+              <div class="vision-card-icon">💪</div>
+              <label class="form-label">Health & Fitness Goals</label>
+              <textarea class="form-textarea vision-input" rows="3" placeholder="Daily workouts, healthy weight, energy for family activities, personal trainer..." onchange="checkVisionCompletion()"></textarea>
+              <div class="vision-hint">Fitness goals, nutrition plans, wellness routines, health investments...</div>
+            </div>
+            
+            <div class="vision-card">
+              <div class="card-decoration"></div>
+              <div class="vision-card-icon">
+                <img src="https://raw.githubusercontent.com/Smalltradesevo/cost-cal/main/assets/images/dart.png" alt="Target goals icon">
+              </div>
+              <label class="form-label">Hobbies & Passions</label>
+              <input type="text" class="form-input vision-input" placeholder="Golf, photography, cooking, reading, music, sports..." onchange="checkVisionCompletion()">
+              <div class="vision-hint">How do you love spending your free time? What brings you joy?</div>
+            </div>
+            
+            <div class="vision-card">
+              <div class="card-decoration"></div>
+              <div class="vision-card-icon">
+                <img src="https://raw.githubusercontent.com/Smalltradesevo/cost-cal/main/assets/images/vacations.png" alt="Travel icon">
+              </div>
+              <label class="form-label">Travel Dreams</label>
+              <textarea class="form-textarea vision-input" rows="2" placeholder="Europe annually, beach trips quarterly, Disney with kids, adventure travel..." onchange="checkVisionCompletion()"></textarea>
+              <div class="vision-hint">Frequency, destinations, travel style, bucket list experiences...</div>
+            </div>
+            
+            <div class="vision-card">
+              <div class="card-decoration"></div>
+              <div class="vision-card-icon">
+                <img src="https://raw.githubusercontent.com/Smalltradesevo/cost-cal/main/assets/images/family-expenses.png" alt="Family icon">
+              </div>
+              <label class="form-label">Family Goals</label>
+              <textarea class="form-textarea vision-input" rows="2" placeholder="Kids' college funds, family traditions, quality time, legacy building..." onchange="checkVisionCompletion()"></textarea>
+              <div class="vision-hint">Children, education, family experiences, generational wealth...</div>
+            </div>
+            
+            <div class="vision-card">
+              <div class="card-decoration"></div>
+              <div class="vision-card-icon">🛥️</div>
+              <label class="form-label">Recreational Investments</label>
+              <input type="text" class="form-input vision-input" placeholder="Boat, RV, motorcycles, skiing equipment, workshop tools..." onchange="checkVisionCompletion()">
+              <div class="vision-hint">Boats, recreational vehicles, hobby equipment, outdoor gear...</div>
+            </div>
+            
+            <div class="vision-card">
+              <div class="card-decoration"></div>
+              <div class="vision-card-icon">
+                <img src="https://raw.githubusercontent.com/Smalltradesevo/cost-cal/main/assets/images/finfreedom.png" alt="Financial freedom icon">
+              </div>
+              <label class="form-label">Financial Security</label>
+              <textarea class="form-textarea vision-input" rows="2" placeholder="Emergency fund, retirement savings, investment properties, passive income..." onchange="checkVisionCompletion()"></textarea>
+              <div class="vision-hint">Savings goals, investments, financial independence milestones...</div>
+            </div>
+            
+            <div class="vision-card">
+              <div class="card-decoration"></div>
+              <div class="vision-card-icon">💖</div>
+              <label class="form-label">Giving Back</label>
+              <textarea class="form-textarea vision-input" rows="2" placeholder="Local charities, church, children's causes, community development..." onchange="checkVisionCompletion()"></textarea>
+              <div class="vision-hint">Causes you care about, community involvement, philanthropic goals...</div>
+            </div>
+          </div>
+          
+          <!-- Completion Gate -->
+          <div id="completionGate" class="completion-gate" style="display: none;">
+            <div class="completion-message">
+              <h3>🎉 Vision Board Complete!</h3>
+              <p>Great job painting your vision! Now let's calculate how our referral system can make it reality.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 2: Business Expenses -->
+        <div id="step-2" class="step">
+          <div class="step-header">
+            <h2 class="step-title">🔧 Business Expenses</h2>
+            <p class="step-subtitle">Enter your monthly business operational costs</p>
+          </div>
+          
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label">Cost of Goods Sold (COGS)</label>
+              <div class="currency-input">
+                <input type="number" id="cogs" class="form-input" placeholder="2500" min="0" step="1" oninput="calculateBusinessTotal()">
+              </div>
+              <div class="cost-hint">Materials, supplies, direct labor costs for your trade</div>
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label">Tools & Equipment</label>
+              <div class="currency-input">
+                <input type="number" id="tools" class="form-input" placeholder="800" min="0" step="1" oninput="calculateBusinessTotal()">
+              </div>
+              <div class="cost-hint">Tool purchases, equipment maintenance, technology upgrades</div>
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label">Fleet & Fuel</label>
+              <div class="currency-input">
+                <input type="number" id="fleet" class="form-input" placeholder="600" min="0" step="1" oninput="calculateBusinessTotal()">
+              </div>
+              <div class="cost-hint">Vehicle payments, fuel, maintenance, insurance</div>
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label">Merchant Fees & Processing</label>
+              <div class="currency-input">
+                <input type="number" id="merchantFees" class="form-input" placeholder="200" min="0" step="1" oninput="calculateBusinessTotal()">
+              </div>
+              <div class="cost-hint">Payment processing, banking fees, software subscriptions</div>
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label">Marketing & Advertising</label>
+              <div class="currency-input">
+                <input type="number" id="marketing" class="form-input" placeholder="500" min="0" step="1" oninput="calculateBusinessTotal()">
+              </div>
+              <div class="cost-hint">Ads, website, business cards, lead generation</div>
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label">Insurance & Licensing</label>
+              <div class="currency-input">
+                <input type="number" id="insurance" class="form-input" placeholder="400" min="0" step="1" oninput="calculateBusinessTotal()">
+              </div>
+              <div class="cost-hint">Liability, bonding, permits, professional licenses</div>
+            </div>
+          </div>
+          
+          <!-- Business Expense Summary -->
+          <div class="cost-breakdown">
+            <h3>Monthly Business Expenses Summary</h3>
+            <div class="breakdown-item">
+              <span class="breakdown-label">Cost of Goods Sold</span>
+              <span class="breakdown-value" id="cogsDisplay">$0</span>
+            </div>
+            <div class="breakdown-item">
+              <span class="breakdown-label">Tools & Equipment</span>
+              <span class="breakdown-value" id="toolsDisplay">$0</span>
+            </div>
+            <div class="breakdown-item">
+              <span class="breakdown-label">Fleet & Fuel</span>
+              <span class="breakdown-value" id="fleetDisplay">$0</span>
+            </div>
+            <div class="breakdown-item">
+              <span class="breakdown-label">Merchant Fees</span>
+              <span class="breakdown-value" id="merchantDisplay">$0</span>
+            </div>
+            <div class="breakdown-item">
+              <span class="breakdown-label">Marketing</span>
+              <span class="breakdown-value" id="marketingDisplay">$0</span>
+            </div>
+            <div class="breakdown-item">
+              <span class="breakdown-label">Insurance</span>
+              <span class="breakdown-value" id="insuranceDisplay">$0</span>
+            </div>
+            <div class="breakdown-item total">
+              <span class="breakdown-label">Total Monthly Business Expenses</span>
+              <span class="breakdown-value" id="businessTotal">$0</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 3: Personal & Family Expenses -->
+        <div id="step-3" class="step">
+          <div class="step-header">
+            <h2 class="step-title">🏠 Personal & Family Expenses</h2>
+            <p class="step-subtitle">Enter your monthly personal and family costs</p>
+          </div>
+          
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label">Housing (Rent/Mortgage)</label>
+              <div class="currency-input">
+                <input type="number" id="housing" class="form-input" placeholder="2000" min="0" step="1" oninput="calculatePersonalTotal()">
+              </div>
+              <div class="cost-hint">Rent, mortgage, property taxes, HOA fees</div>
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label">Utilities & Services</label>
+              <div class="currency-input">
+                <input type="number" id="utilities" class="form-input" placeholder="300" min="0" step="1" oninput="calculatePersonalTotal()">
+              </div>
+              <div class="cost-hint">Electric, gas, water, internet, phone, streaming</div>
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label">Food & Groceries</label>
+              <div class="currency-input">
+                <input type="number" id="food" class="form-input" placeholder="800" min="0" step="1" oninput="calculatePersonalTotal()">
+              </div>
+              <div class="cost-hint">Groceries, dining out, family meals</div>
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label">Transportation</label>
+              <div class="currency-input">
+                <input type="number" id="transportation" class="form-input" placeholder="600" min="0" step="1" oninput="calculatePersonalTotal()">
+              </div>
+              <div class="cost-hint">Personal vehicle payments, fuel, maintenance</div>
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label">Healthcare & Medical</label>
+              <div class="currency-input">
+                <input type="number" id="healthcare" class="form-input" placeholder="400" min="0" step="1" oninput="calculatePersonalTotal()">
+              </div>
+              <div class="cost-hint">Insurance premiums, medications, doctor visits</div>
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label">Entertainment & Recreation</label>
+              <div class="currency-input">
+                <input type="number" id="entertainment" class="form-input" placeholder="500" min="0" step="1" oninput="calculatePersonalTotal()">
+              </div>
+              <div class="cost-hint">Movies, sports, hobbies, family activities</div>
+            </div>
+          </div>
+          
+          <!-- Personal Expense Summary -->
+          <div class="cost-breakdown">
+            <h3>Monthly Personal & Family Expenses</h3>
+            <div class="breakdown-item">
+              <span class="breakdown-label">Housing</span>
+              <span class="breakdown-value" id="housingDisplay">$0</span>
+            </div>
+            <div class="breakdown-item">
+              <span class="breakdown-label">Utilities</span>
+              <span class="breakdown-value" id="utilitiesDisplay">$0</span>
+            </div>
+            <div class="breakdown-item">
+              <span class="breakdown-label">Food</span>
+              <span class="breakdown-value" id="foodDisplay">$0</span>
+            </div>
+            <div class="breakdown-item">
+              <span class="breakdown-label">Transportation</span>
+              <span class="breakdown-value" id="transportationDisplay">$0</span>
+            </div>
+            <div class="breakdown-item">
+              <span class="breakdown-label">Healthcare</span>
+              <span class="breakdown-value" id="healthcareDisplay">$0</span>
+            </div>
+            <div class="breakdown-item">
+              <span class="breakdown-label">Entertainment</span>
+              <span class="breakdown-value" id="entertainmentDisplay">$0</span>
+            </div>
+            <div class="breakdown-item total">
+              <span class="breakdown-label">Total Monthly Personal Expenses</span>
+              <span class="breakdown-value" id="personalTotal">$0</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 4: Referral Income Calculator -->
+        <div id="step-4" class="step">
+          <div class="step-header">
+            <h2 class="step-title">💰 Your Referral Income Potential</h2>
+            <p class="step-subtitle">Based on Small Trades Evolution's proven commission structure</p>
+          </div>
+          
+          <div class="results-card">
+            <h3 class="results-title">Choose Your Performance Level</h3>
+            <div class="results-grid">
+              <div class="result-item tier-1" onclick="selectTier(1)">
+                <div class="result-label">Starter Level</div>
+                <div class="result-value">$12,505</div>
+                <div class="result-time">100 Referrals</div>
+                <div class="result-earning">1.00% Bonus Rate</div>
+              </div>
+              
+              <div class="result-item tier-2" onclick="selectTier(2)">
+                <div class="result-label">Active Level</div>
+                <div class="result-value">$60,026</div>
+                <div class="result-time">200 + 920 Elite</div>
+                <div class="result-earning">1.25% + 0.25% Bonus</div>
+              </div>
+              
+              <div class="result-item tier-3" onclick="selectTier(3)">
+                <div class="result-label">Elite Level</div>
+                <div class="result-value">$300,130</div>
+                <div class="result-time">300 + 1380 Elite</div>
+                <div class="result-earning">2.25% + 1.25% Bonus</div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Selected Tier Details -->
+          <div id="tierDetails" class="cost-breakdown" style="display: none;">
+            <h3 id="selectedTierTitle">Performance Level Details</h3>
+            <div class="breakdown-item">
+              <span class="breakdown-label">Direct Referrals Needed</span>
+              <span class="breakdown-value" id="directReferrals">0</span>
+            </div>
+            <div class="breakdown-item">
+              <span class="breakdown-label">Elite Referrals Needed</span>
+              <span class="breakdown-value" id="eliteReferrals">0</span>
+            </div>
+            <div class="breakdown-item">
+              <span class="breakdown-label">Monthly Income Potential</span>
+              <span class="breakdown-value" id="monthlyIncome">$0</span>
+            </div>
+            <div class="breakdown-item total">
+              <span class="breakdown-label">Annual Income Potential</span>
+              <span class="breakdown-value" id="annualIncome">$0</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 5: Your Freedom Forecast -->
+        <div id="step-5" class="step">
+          <div class="step-header">
+            <h2 class="step-title">🎯 Your Freedom Forecast</h2>
+            <p class="step-subtitle">Here's your personalized roadmap to financial independence</p>
+          </div>
+          
+          <!-- Summary Cards -->
+          <div class="summary-grid">
+            <div class="summary-card">
+              <div class="summary-card-title">Monthly Expenses</div>
+              <div class="summary-card-value" id="totalExpenses">$0</div>
+              <div class="summary-card-subtitle">Business + Personal</div>
+            </div>
+            
+            <div class="summary-card">
+              <div class="summary-card-title">Monthly Income Goal</div>
+              <div class="summary-card-value" id="incomeGoal">$0</div>
+              <div class="summary-card-subtitle">From referrals</div>
+            </div>
+            
+            <div class="summary-card">
+              <div class="summary-card-title">Financial Freedom</div>
+              <div class="summary-card-value" id="freedomMonths">0</div>
+              <div class="summary-card-subtitle">Months to achieve</div>
+            </div>
+          </div>
+          
+          <!-- Vision Achievement Breakdown -->
+          <div class="results-card">
+            <h3 class="results-title">🌟 How You'll Achieve Your Vision</h3>
+            <div id="visionAchievement">
+              <!-- This will be populated by JavaScript -->
+            </div>
+          </div>
+          
+          <!-- Export Button -->
+          <button class="btn-export" onclick="exportToPDF()">
+            📄 Download Your Freedom Forecast
+          </button>
+        </div>
+      </div>
+
+      <!-- Navigation -->
+      <div class="navigation">
+        <button class="btn btn-secondary" id="prevBtn" onclick="navigate(-1)" disabled>
+          ← Previous
+        </button>
+        <button class="btn btn-primary" id="nextBtn" onclick="navigate(1)">
+          Next →
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Include JavaScript -->
+  <script src="app.js"></script>
+</body>
+</html>
