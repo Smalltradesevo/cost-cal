@@ -260,6 +260,26 @@
         </div>
         ,<br>
         </br>
+        <div class="hero-video-section">
+  <div class="hero-content">
+    <h1 class="hero-title">Turn Your Side Hustle Into Your Financial Freedom</h1>
+    <p class="hero-subtitle">
+      Join our market-dominating solution, be the fuel that creates exponential growth and get paid in life changing money. No selling, no online gimmicks, no costs to participate.
+    </p>
+    <div class="video">
+      <div class="video-overlay">
+        <div class="play-button hero-play-btn" onclick="playHeroVideo()">
+          <div class="play-icon">▶</div>
+        </div>
+      </div>
+      <!-- The video itself, initially hidden. Show this in your playHeroVideo() JS function. -->
+      <video id="heroVideo" width="100%" style="display:none; border-radius:16px; margin-top:15px;" controls>
+        <source src="https://raw.githubusercontent.com/Smalltradesevo/cost-cal/main/assets/video/introsim.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </div>
+  </div>
+</div>
     <div class="hero-video-section">
         <div class="hero-content">
           <h1 class="hero-title">Turn Your Side Hustle Into Your Financial Freedom<h1>
@@ -797,5 +817,14 @@
       alert('Hero video would play here. This is where your side hustle recruitment video will be embedded.');
     }
   </script>
+            <script>
+  function playHeroVideo() {
+    // Hide play button and show video
+    document.querySelector('.video-overlay').style.display = 'none';
+    var vid = document.getElementById('heroVideo');
+    vid.style.display = 'block';
+    vid.play();
+  }
+</script>
 </body>
 </html>
