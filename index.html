@@ -67,10 +67,7 @@
           </div>
           
           <div class="video-placeholder welcome-video">
-            <video id="founderVideo" width="100%" height="100%" controls style="border-radius: 12px;">
-              <source src="https://raw.githubusercontent.com/Smalltradesevo/cost-cal/refs/heads/main/assets/video/introsim.mp4" type="video/mp4">
-              Your browser does not support the video tag.
-            </video>
+            <div style="padding:177.92% 0 0 0;position:relative;"><iframe id="founderVideo" src="https://player.vimeo.com/video/1099257778?title=0&amp;byline=0&amp;portrait=0&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="intro"></iframe></div>
           </div>
         </div>
       </div>
@@ -537,13 +534,14 @@
 
   <!-- Include JavaScript -->
   <script src="app.js"></script>
+  <script src="https://player.vimeo.com/api/player.js"></script>
   
   <script>
     // Function to play top avatar audio (wave1.wav) and auto-play video after
     function playTopAvatarAudio() {
       const audio = document.getElementById('topAvatarAudio');
       const overlay = document.getElementById('topClickMeOverlay');
-      const video = document.getElementById('founderVideo');
+      const vimeoIframe = document.getElementById('founderVideo');
       
       audio.play().catch(error => {
         console.log('Audio play failed:', error);
@@ -554,11 +552,12 @@
         overlay.style.display = 'none';
       }
       
-      // Auto-play video 1 second after audio ends
+      // Auto-play Vimeo video 1 second after audio ends
       audio.addEventListener('ended', function() {
         setTimeout(function() {
-          video.play().catch(error => {
-            console.log('Video autoplay failed:', error);
+          const player = new Vimeo.Player(vimeoIframe);
+          player.play().catch(error => {
+            console.log('Vimeo video autoplay failed:', error);
           });
         }, 1000); // 1 second delay
       });
