@@ -90,8 +90,11 @@
         <p class="intro-text">This 5-step process will create your personalized roadmap to financial independence. You'll discover exactly how our referral system can fund your business, secure your family, and achieve your wildest dreams.</p>
         
         <!-- Female Avatar -->
-        <div class="avatar-container">
+        <div class="avatar-container" style="position: relative; display: inline-block; cursor: pointer;" onclick="playAvatarAudio()">
           <img src="https://raw.githubusercontent.com/Smalltradesevo/cost-cal/main/assets/images/sexygirl.jpg" alt="AI Assistant" id="assistantAvatar" style="width: 200px; height: 200px; border-radius: 50%; object-fit: cover; border: 3px solid #667eea;">
+          <div id="clickMeOverlay" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(255, 255, 255, 0.9); color: #667eea; padding: 8px 16px; border-radius: 20px; font-weight: bold; animation: flash 1.5s infinite; pointer-events: none;">
+            Click Me!
+          </div>
         </div>
         
         <button class="btn-dismiss" onclick="hideIntro()">Let's Build Your Future</button>
@@ -535,28 +538,27 @@
   <script src="app.js"></script>
   
   <script>
-    // Intersection Observer for avatar speech
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const audio = document.getElementById('avatarAudio');
-          audio.play().catch(error => {
-            console.log('Audio autoplay prevented:', error);
-          });
-          observer.unobserve(entry.target);
-        }
+    // Function to play avatar audio when clicked
+    function playAvatarAudio() {
+      const audio = document.getElementById('avatarAudio');
+      const overlay = document.getElementById('clickMeOverlay');
+      
+      audio.play().catch(error => {
+        console.log('Audio play failed:', error);
       });
-    }, {
-      threshold: 0.5
-    });
-
-    // Start observing the assistant avatar when page loads
-    document.addEventListener('DOMContentLoaded', function() {
-      const avatar = document.getElementById('assistantAvatar');
-      if (avatar) {
-        observer.observe(avatar);
+      
+      // Hide the "click me" overlay after clicking
+      if (overlay) {
+        overlay.style.display = 'none';
       }
-    });
+    }
   </script>
+  
+  <style>
+    @keyframes flash {
+      0%, 50% { opacity: 1; }
+      25%, 75% { opacity: 0.3; }
+    }
+  </style>
 </body>
 </html>
