@@ -30,18 +30,11 @@
         <div class="welcome-content">
           <h2 class="welcome-title">Your Journey to Financial Freedom Starts Here</h2>
           <p class="welcome-description">
-           You landed here because someone told you about us or you heard about us. The Hype is real as you are reading this my words. I am Steven Holcombe the founder of Small Trades Evolution. We follow my driven desire to help America's Small Trades, instead of making money off them and acting like I care. All Parties win who particapate in our paradygm shift solution for specifially for the home services marketplace.
-
-Winning can include you as an elite referral agent who as part of the top twenty fueling this movement — that materializes deserved and real financial independence and overdue recognition.
-
-Let’s be blunt: most “side hustles” are just shiny shackles — selling crap online or pounding pavement for pennies, usually with some sneaky cost. Not here. This is one of the only *real* zero-cost opportunities that can flip from side gig to your main gig inside a year — no bullshit, no hidden fees. Just a proven system designed to help you build your dream life in three years or less.
-
-Here’s the kicker: our Elite Referral Agents aren’t just earning passive income and sustaning thier dream lives in three years or less — they’re the driving force finally giving *America’s small trades* the voice and recognition they’ve deserved for decades. Small trades pros make up one of the biggest spending blocks in the home services market — but they’ve been overlooked and underappreciated for far too long. We’re changing that, and you’re part of it.
-
-Below is your Financial Freedom Calculator. Plug in your numbers. See exactly how much *residual* income you’ll build, how fast you’ll cover every life expense, and when you can start waking up to money working for *you*.
-
-The best part? Reach Elite status and you’re earning while you sleep — building freedom for yourself and power for America’s small trades. It’s about damn time.
-
+            At Small Trades Evolution, we believe every skilled tradesperson deserves financial independence. 
+            This powerful calculator will show you exactly how our proven referral system can transform your 
+            income and accelerate your path to the life you've always dreamed of.
+          </p>
+          
           <div class="benefits-grid">
             <div class="benefit-item">
               <div class="benefit-icon">🎯</div>
@@ -550,7 +543,7 @@ The best part? Reach Elite status and you’re earning while you sleep — build
           </div>
           
           <!-- Export Button -->
-          <button class="btn-export" onclick="exportToPDF()">
+          <button class="btn-export" onclick="exportFullPDF()">
             📄 Download Your Freedom Forecast
           </button>
         </div>
@@ -604,6 +597,53 @@ The best part? Reach Elite status and you’re earning while you sleep — build
   <script src="https://player.vimeo.com/api/player.js"></script>
   
   <script>
+    // PDF Export Function - Fixed to capture all content
+    function exportFullPDF() {
+      // Store current step visibility
+      const allSteps = document.querySelectorAll('.step');
+      const originalDisplay = [];
+      
+      // Make all steps visible for PDF generation
+      allSteps.forEach((step, index) => {
+        originalDisplay[index] = step.style.display;
+        step.style.display = 'block';
+        step.classList.add('active');
+      });
+      
+      // Hide navigation and progress during PDF
+      const navigation = document.querySelector('.navigation');
+      const progressContainer = document.querySelector('.progress-container');
+      const originalNavDisplay = navigation.style.display;
+      const originalProgressDisplay = progressContainer.style.display;
+      
+      navigation.style.display = 'none';
+      progressContainer.style.display = 'none';
+      
+      // Generate PDF
+      const element = document.getElementById('reportContainer');
+      const opt = {
+        margin: 0.5,
+        filename: 'Freedom-Forecast-Report.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2, useCORS: true },
+        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+      };
+      
+      html2pdf().set(opt).from(element).save().then(() => {
+        // Restore original step visibility
+        allSteps.forEach((step, index) => {
+          step.style.display = originalDisplay[index];
+          if (index !== 4) { // Keep only step 5 active
+            step.classList.remove('active');
+          }
+        });
+        
+        // Restore navigation and progress
+        navigation.style.display = originalNavDisplay;
+        progressContainer.style.display = originalProgressDisplay;
+      });
+    }
+    
     // Function to play top avatar audio (wave1.wav) and auto-play video after
     function playTopAvatarAudio() {
       const audio = document.getElementById('topAvatarAudio');
