@@ -559,6 +559,13 @@
           player.play().catch(error => {
             console.log('Vimeo video autoplay failed:', error);
           });
+          
+          // Listen for video end, then play bottom avatar after 1 second
+          player.on('ended', function() {
+            setTimeout(function() {
+              playBottomAvatarAudio();
+            }, 1000); // 1 second delay after video ends
+          });
         }, 1000); // 1 second delay
       });
     }
