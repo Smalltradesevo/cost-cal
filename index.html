@@ -131,11 +131,11 @@
             <div class="lead-form">
               <div class="form-group">
                 <label class="form-label">What's your first name?</label>
-                <input type="text" id="firstName" class="form-input vision-input" placeholder="Enter your first name" required>
+                <input type="text" id="firstName" class="form-input vision-input" placeholder="Enter your first name" required onchange="checkVisionCompletion()">
               </div>
               <div class="form-group">
                 <label class="form-label">Mobile Phone</label>
-                <input type="tel" id="mobilePhone" class="form-input vision-input" placeholder="555-222-1234">
+                <input type="tel" id="mobilePhone" class="form-input vision-input" placeholder="555-222-1234" onchange="checkVisionCompletion()">
               </div>
             </div>
           </div>
@@ -150,7 +150,7 @@
               <div class="card-decoration"></div>
               <div class="vision-card-icon">🏠</div>
               <label class="form-label">Current Home Situation</label>
-              <input type="text" class="form-input vision-input" placeholder="e.g., Own a 3BR house in suburban Dallas">
+              <input type="text" class="form-input vision-input" placeholder="e.g., Own a 3BR house in suburban Dallas" onchange="checkVisionCompletion()">
               <div class="vision-hint">Do you own or rent? Describe your current living situation.</div>
             </div>
             
@@ -158,7 +158,7 @@
               <div class="card-decoration"></div>
               <div class="vision-card-icon">🏡</div>
               <label class="form-label">Dream Home</label>
-              <textarea class="form-textarea vision-input" rows="3" placeholder="4BR/3BA with pool, large kitchen, home office, mountain views..."></textarea>
+              <textarea class="form-textarea vision-input" rows="3" placeholder="4BR/3BA with pool, large kitchen, home office, mountain views..." onchange="checkVisionCompletion()"></textarea>
               <div class="vision-hint">Bedrooms, bathrooms, special features, location, outdoor space...</div>
             </div>
             
@@ -166,7 +166,7 @@
               <div class="card-decoration"></div>
               <div class="vision-card-icon">🚗</div>
               <label class="form-label">Vehicle Dreams</label>
-              <input type="text" class="form-input vision-input" placeholder="Tesla Model S, Ford F-150, family SUV, classic car...">
+              <input type="text" class="form-input vision-input" placeholder="Tesla Model S, Ford F-150, family SUV, classic car..." onchange="checkVisionCompletion()">
               <div class="vision-hint">Current cars, dream vehicles, recreational vehicles...</div>
             </div>
             
@@ -174,7 +174,7 @@
               <div class="card-decoration"></div>
               <div class="vision-card-icon">💪</div>
               <label class="form-label">Health & Fitness Goals</label>
-              <textarea class="form-textarea vision-input" rows="3" placeholder="Daily workouts, healthy weight, energy for family activities, personal trainer..."></textarea>
+              <textarea class="form-textarea vision-input" rows="3" placeholder="Daily workouts, healthy weight, energy for family activities, personal trainer..." onchange="checkVisionCompletion()"></textarea>
               <div class="vision-hint">Fitness goals, nutrition plans, wellness routines, health investments...</div>
             </div>
             
@@ -182,7 +182,7 @@
               <div class="card-decoration"></div>
               <div class="vision-card-icon">🎯</div>
               <label class="form-label">Hobbies & Passions</label>
-              <input type="text" class="form-input vision-input" placeholder="Golf, photography, cooking, reading, music, sports...">
+              <input type="text" class="form-input vision-input" placeholder="Golf, photography, cooking, reading, music, sports..." onchange="checkVisionCompletion()">
               <div class="vision-hint">How do you love spending your free time? What brings you joy?</div>
             </div>
             
@@ -190,7 +190,7 @@
               <div class="card-decoration"></div>
               <div class="vision-card-icon">✈️</div>
               <label class="form-label">Travel Dreams</label>
-              <textarea class="form-textarea vision-input" rows="2" placeholder="Europe annually, beach trips quarterly, Disney with kids, adventure travel..."></textarea>
+              <textarea class="form-textarea vision-input" rows="2" placeholder="Europe annually, beach trips quarterly, Disney with kids, adventure travel..." onchange="checkVisionCompletion()"></textarea>
               <div class="vision-hint">Frequency, destinations, travel style, bucket list experiences...</div>
             </div>
             
@@ -198,7 +198,7 @@
               <div class="card-decoration"></div>
               <div class="vision-card-icon">👨‍👩‍👧‍👦</div>
               <label class="form-label">Family Goals</label>
-              <textarea class="form-textarea vision-input" rows="2" placeholder="Kids' college funds, family traditions, quality time, legacy building..."></textarea>
+              <textarea class="form-textarea vision-input" rows="2" placeholder="Kids' college funds, family traditions, quality time, legacy building..." onchange="checkVisionCompletion()"></textarea>
               <div class="vision-hint">Children, education, family experiences, generational wealth...</div>
             </div>
             
@@ -206,7 +206,7 @@
               <div class="card-decoration"></div>
               <div class="vision-card-icon">🛥️</div>
               <label class="form-label">Recreational Investments</label>
-              <input type="text" class="form-input vision-input" placeholder="Boat, RV, motorcycles, skiing equipment, workshop tools...">
+              <input type="text" class="form-input vision-input" placeholder="Boat, RV, motorcycles, skiing equipment, workshop tools..." onchange="checkVisionCompletion()">
               <div class="vision-hint">Boats, recreational vehicles, hobby equipment, outdoor gear...</div>
             </div>
             
@@ -214,7 +214,7 @@
               <div class="card-decoration"></div>
               <div class="vision-card-icon">💰</div>
               <label class="form-label">Financial Security</label>
-              <textarea class="form-textarea vision-input" rows="2" placeholder="Emergency fund, retirement savings, investment properties, passive income..."></textarea>
+              <textarea class="form-textarea vision-input" rows="2" placeholder="Emergency fund, retirement savings, investment properties, passive income..." onchange="checkVisionCompletion()"></textarea>
               <div class="vision-hint">Savings goals, investments, financial independence milestones...</div>
             </div>
             
@@ -222,7 +222,7 @@
               <div class="card-decoration"></div>
               <div class="vision-card-icon">💖</div>
               <label class="form-label">Giving Back</label>
-              <textarea class="form-textarea vision-input" rows="2" placeholder="Local charities, church, children's causes, community development..."></textarea>
+              <textarea class="form-textarea vision-input" rows="2" placeholder="Local charities, church, children's causes, community development..." onchange="checkVisionCompletion()"></textarea>
               <div class="vision-hint">Causes you care about, community involvement, philanthropic goals...</div>
             </div>
           </div>
