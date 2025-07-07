@@ -16,7 +16,7 @@
   <div class="main-container">
     <header>
       <div class="brand-header">
-        <div class="logo-container" style="width: 200px; height: 200px; display: flex; align-items: center; justify-content: center; margin-right: 30px;">
+        <div class="logo-container" style="width: 200px; height: 200px; display: flex; align-items: center; justify-content: center; margin-right: 30px; border-radius: 50%; box-shadow: 0 0 20px rgba(102, 126, 234, 0.6), 0 0 40px rgba(102, 126, 234, 0.4), 0 0 60px rgba(102, 126, 234, 0.2); animation: pulse-glow 2s infinite;">
           <img src="https://raw.githubusercontent.com/Smalltradesevo/cost-cal/main/assets/images/newlogo.png" alt="Small Trades Evolution Logo" style="height: 160px; width: auto; max-width: 100%;">
         </div>
         <div>
@@ -56,29 +56,21 @@
         
         <!-- Welcome Video -->
         <div class="video-container">
+          <!-- New Avatar Above Video -->
+          <div style="text-align: center; margin-bottom: 20px;">
+            <div class="avatar-container" style="position: relative; display: inline-block; cursor: pointer; border-radius: 50%; box-shadow: 0 0 20px rgba(102, 126, 234, 0.6), 0 0 40px rgba(102, 126, 234, 0.4), 0 0 60px rgba(102, 126, 234, 0.2); animation: pulse-glow 2s infinite;" onclick="playTopAvatarAudio()">
+              <img src="https://raw.githubusercontent.com/Smalltradesevo/cost-cal/main/assets/images/sexygirl.jpg" alt="AI Assistant" id="topAssistantAvatar" style="width: 200px; height: 200px; border-radius: 50%; object-fit: cover; border: 3px solid #667eea;">
+              <div id="topClickMeOverlay" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(255, 255, 255, 0.9); color: #667eea; padding: 8px 16px; border-radius: 20px; font-weight: bold; animation: flash 1.5s infinite; pointer-events: none;">
+                Click Me!
+              </div>
+            </div>
+          </div>
+          
           <div class="video-placeholder welcome-video">
-            <div class="video-overlay">
-              <div class="play-button" onclick="playWelcomeVideo()">
-                <div class="play-icon">▶</div>
-              </div>
-              <div class="video-info">
-                <h3>Welcome Message</h3>
-                <p>Personal greeting from our founder</p>
-                <span class="video-duration">2:30</span>
-              </div>
-            </div>
-            <div class="video-thumbnail">
-              <div class="thumbnail-content">
-                <div class="speaker-avatar">👨‍💼</div>
-                <div class="waveform">
-                  <div class="wave"></div>
-                  <div class="wave"></div>
-                  <div class="wave"></div>
-                  <div class="wave"></div>
-                  <div class="wave"></div>
-                </div>
-              </div>
-            </div>
+            <video id="founderVideo" width="100%" height="100%" controls style="border-radius: 12px;">
+              <source src="https://raw.githubusercontent.com/Smalltradesevo/cost-cal/refs/heads/main/assets/video/introsim.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
           </div>
         </div>
       </div>
@@ -90,9 +82,9 @@
         <p class="intro-text">This 5-step process will create your personalized roadmap to financial independence. You'll discover exactly how our referral system can fund your business, secure your family, and achieve your wildest dreams.</p>
         
         <!-- Female Avatar -->
-        <div class="avatar-container" style="position: relative; display: inline-block; cursor: pointer;" onclick="playAvatarAudio()">
-          <img src="https://raw.githubusercontent.com/Smalltradesevo/cost-cal/main/assets/images/sexygirl.jpg" alt="AI Assistant" id="assistantAvatar" style="width: 200px; height: 200px; border-radius: 50%; object-fit: cover; border: 3px solid #667eea;">
-          <div id="clickMeOverlay" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(255, 255, 255, 0.9); color: #667eea; padding: 8px 16px; border-radius: 20px; font-weight: bold; animation: flash 1.5s infinite; pointer-events: none;">
+        <div class="avatar-container" style="position: relative; display: inline-block; cursor: pointer; border-radius: 50%; box-shadow: 0 0 20px rgba(102, 126, 234, 0.6), 0 0 40px rgba(102, 126, 234, 0.4), 0 0 60px rgba(102, 126, 234, 0.2); animation: pulse-glow 2s infinite;" onclick="playBottomAvatarAudio()">
+          <img src="https://raw.githubusercontent.com/Smalltradesevo/cost-cal/main/assets/images/sexygirl.jpg" alt="AI Assistant" id="bottomAssistantAvatar" style="width: 200px; height: 200px; border-radius: 50%; object-fit: cover; border: 3px solid #667eea;">
+          <div id="bottomClickMeOverlay" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(255, 255, 255, 0.9); color: #667eea; padding: 8px 16px; border-radius: 20px; font-weight: bold; animation: flash 1.5s infinite; pointer-events: none;">
             Click Me!
           </div>
         </div>
@@ -532,9 +524,14 @@
     </div>
   </div>
 
-  <!-- Audio for avatar -->
-  <audio id="avatarAudio" preload="auto">
+  <!-- Audio for avatars -->
+  <audio id="topAvatarAudio" preload="auto">
     <source src="https://raw.githubusercontent.com/Smalltradesevo/cost-cal/main/assets/audio/wave1.wav" type="audio/wav">
+    Your browser does not support the audio element.
+  </audio>
+  
+  <audio id="bottomAvatarAudio" preload="auto">
+    <source src="https://raw.githubusercontent.com/Smalltradesevo/cost-cal/main/assets/audio/wave2.wav" type="audio/wav">
     Your browser does not support the audio element.
   </audio>
 
@@ -542,10 +539,35 @@
   <script src="app.js"></script>
   
   <script>
-    // Function to play avatar audio when clicked
-    function playAvatarAudio() {
-      const audio = document.getElementById('avatarAudio');
-      const overlay = document.getElementById('clickMeOverlay');
+    // Function to play top avatar audio (wave1.wav) and auto-play video after
+    function playTopAvatarAudio() {
+      const audio = document.getElementById('topAvatarAudio');
+      const overlay = document.getElementById('topClickMeOverlay');
+      const video = document.getElementById('founderVideo');
+      
+      audio.play().catch(error => {
+        console.log('Audio play failed:', error);
+      });
+      
+      // Hide the "click me" overlay after clicking
+      if (overlay) {
+        overlay.style.display = 'none';
+      }
+      
+      // Auto-play video 1 second after audio ends
+      audio.addEventListener('ended', function() {
+        setTimeout(function() {
+          video.play().catch(error => {
+            console.log('Video autoplay failed:', error);
+          });
+        }, 1000); // 1 second delay
+      });
+    }
+    
+    // Function to play bottom avatar audio (wave2.wav)
+    function playBottomAvatarAudio() {
+      const audio = document.getElementById('bottomAvatarAudio');
+      const overlay = document.getElementById('bottomClickMeOverlay');
       
       audio.play().catch(error => {
         console.log('Audio play failed:', error);
@@ -562,6 +584,15 @@
     @keyframes flash {
       0%, 50% { opacity: 1; }
       25%, 75% { opacity: 0.3; }
+    }
+    
+    @keyframes pulse-glow {
+      0%, 100% { 
+        box-shadow: 0 0 20px rgba(102, 126, 234, 0.6), 0 0 40px rgba(102, 126, 234, 0.4), 0 0 60px rgba(102, 126, 234, 0.2);
+      }
+      50% { 
+        box-shadow: 0 0 30px rgba(102, 126, 234, 0.8), 0 0 60px rgba(102, 126, 234, 0.6), 0 0 90px rgba(102, 126, 234, 0.4);
+      }
     }
   </style>
 </body>
