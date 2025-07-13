@@ -1,484 +1,717 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Small Trades Evolution - Freedom Forecast Dashboard</title>
-  
-  <!-- External Stylesheets -->
-  <link href="https://fonts.googleapis.com/css2?family=Oswald+Display:wght@300;400;500;600;700&family=oswald+Text:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
-  
-  <!-- External Scripts -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Small Trades Evolution - Freedom Forecast Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Oswald', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            min-height: 100vh;
+            color: #1e293b;
+            line-height: 1.6;
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            padding: 80px 20px;
+            text-align: center;
+            border-radius: 0 0 40px 40px;
+            box-shadow: 0 20px 40px rgba(30, 58, 138, 0.1);
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #ffffff;
+            letter-spacing: -0.02em;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            margin-bottom: 40px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 400;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .section {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            border: 1px solid #f1f5f9;
+        }
+
+        .section-title {
+            font-size: 2.25rem;
+            color: #1e293b;
+            margin-bottom: 30px;
+            text-align: center;
+            font-weight: 600;
+            letter-spacing: -0.025em;
+        }
+
+        .expense-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .expense-item {
+            background: #f8fafc;
+            padding: 24px;
+            border-radius: 16px;
+            border: 1px solid #e2e8f0;
+            transition: all 0.2s ease;
+        }
+
+        .expense-item:hover {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .expense-item label {
+            display: block;
+            font-size: 1rem;
+            margin-bottom: 8px;
+            color: #374151;
+            font-weight: 500;
+        }
+
+        .expense-item input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            background: #ffffff;
+            color: #111827;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: border-color 0.2s ease;
+        }
+
+        .expense-item input:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .total-display {
+            background: linear-gradient(135deg, #10b981, #059669);
+            padding: 32px;
+            border-radius: 20px;
+            text-align: center;
+            margin: 30px 0;
+            color: #ffffff;
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.2);
+        }
+
+        .total-display h3 {
+            font-size: 1.25rem;
+            margin-bottom: 12px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .total-amount {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #ffffff;
+            letter-spacing: -0.02em;
+        }
+
+        .results-section {
+            background: #ffffff;
+            border-radius: 24px;
+            padding: 48px;
+            margin-top: 40px;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border: 1px solid #f1f5f9;
+        }
+
+        .tier-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .tier-card {
+            background: #ffffff;
+            padding: 32px;
+            border-radius: 20px;
+            border: 2px solid #e5e7eb;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .tier-card:hover {
+            border-color: #3b82f6;
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(59, 130, 246, 0.1);
+        }
+
+        .tier-title {
+            font-size: 1.5rem;
+            color: #1e293b;
+            margin-bottom: 16px;
+            font-weight: 600;
+        }
+
+        .tier-income {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: #059669;
+        }
+
+        .tier-timeline {
+            font-size: 1rem;
+            color: #64748b;
+            font-weight: 500;
+        }
+
+        /* Enhanced CTA Sections */
+        .cta-hero {
+            background: linear-gradient(135deg, #dc2626, #ef4444);
+            padding: 60px 40px;
+            border-radius: 24px;
+            margin-top: 40px;
+            text-align: center;
+            color: #ffffff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" fill="rgba(255,255,255,0.1)"><polygon points="0,0 1000,0 1000,100 0,80"/></svg>');
+            background-size: cover;
+        }
+
+        .cta-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-title {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .cta-subtitle {
+            font-size: 1.4rem;
+            margin-bottom: 40px;
+            opacity: 0.95;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+
+        .cta-button {
+            background: #ffffff;
+            color: #dc2626;
+            font-size: 1.25rem;
+            font-weight: 700;
+            padding: 20px 40px;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            min-width: 220px;
+            justify-content: center;
+        }
+
+        .cta-button:hover {
+            background: #f8fafc;
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+        }
+
+        .cta-button-icon {
+            font-size: 1.5rem;
+        }
+
+        .elite-showcase {
+            background: linear-gradient(135deg, #7c3aed, #a855f7);
+            padding: 50px 40px;
+            border-radius: 24px;
+            margin-top: 30px;
+            text-align: center;
+            color: #ffffff;
+            position: relative;
+        }
+
+        .elite-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+        }
+
+        .elite-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .elite-stat {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 30px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .elite-stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #fbbf24;
+            margin-bottom: 10px;
+        }
+
+        .elite-stat-label {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .guarantee-section {
+            background: linear-gradient(135deg, #059669, #10b981);
+            padding: 40px;
+            border-radius: 20px;
+            margin-top: 30px;
+            text-align: center;
+            color: #ffffff;
+        }
+
+        .guarantee-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .guarantee-text {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            opacity: 0.95;
+        }
+
+        .four-ds {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .d-item {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 15px 25px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .expense-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .section {
+                padding: 20px;
+            }
+
+            .cta-title {
+                font-size: 2rem;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .elite-stats {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div class="main-container">
-    <header>
-      <div class="brand-header">
-        <div class="logo-container" style="width: 200px; height: 200px; display: flex; align-items: center; justify-content: center; margin-right: 30px; border-radius: 50%; box-shadow: 0 0 20px rgba(102, 126, 234, 0.6), 0 0 40px rgba(102, 126, 234, 0.4), 0 0 60px rgba(102, 126, 234, 0.2); animation: pulse-glow 2s infinite;">
-          <img src="https://raw.githubusercontent.com/Smalltradesevo/cost-cal/main/assets/images/newlogo.png" alt="Small Trades Evolution Logo" style="height: 160px; width: auto; max-width: 100%;">
-        </div>
-        <div>
-          <h1 class="brand-title">Freedom Forecast</h1>
-          <p class="tagline">Small Trades Evolution - Relationships that benefit members & partners</p>
-        </div>
-      </div>
-      
-      <!-- Welcome Content Section -->
-      <div class="welcome-section">
-        <div class="welcome-content">
-          <h2 class="welcome-title">Your Journey to Financial Freedom Starts Here</h2>
-          <p class="welcome-description">
-          <bold> You didn't land here by accident. Someone pointed you our way, or you saw something that made you stop scrolling. Good. That means you're curious — and if you're one of the first 25 to act and apply for one of the twenty-five slots, you will thank us in a year. We guarentee it! Member Engagement is designed to create life-changing revenue for our early adopter referral agents. With lifetime residuals even after you say your done. We keep paying you as long as your referrals are in our program. Three years and you could walk away with an annual income of over $300K. Are you ready?
-         </p>
-          
-          <div class="benefits-grid">
-            <div class="benefit-item">
-              <div class="benefit-icon">🎯</div>
-              <h3>Crystal Clear Goals</h3>
-              <p>See exactly how many referrals you need for each life milestone</p>
-            </div>
-            <div class="benefit-item">
-              <div class="benefit-icon">📈</div>
-              <h3>Compound Growth</h3>
-              <p>Watch how weekly referrals compound into life-changing income</p>
-            </div>
-            <div class="benefit-item">
-              <div class="benefit-icon">⚡</div>
-              <h3>Multiple Pathways</h3>
-              <p>Choose your pace: Starter, Active, or Elite performance levels</p>
-            </div>
-          </div>
-        </div>
-        
-         <!-- New Avatar Above Video -->
-          <div style="text-align: center; margin-bottom: 20px;">
-            <div class="avatar-container" style="position: relative; display: inline-block; cursor: pointer; border-radius: 50%; box-shadow: 0 0 20px rgba(102, 126, 234, 0.6), 0 0 40px rgba(102, 126, 234, 0.4), 0 0 60px rgba(102, 126, 234, 0.2); animation: pulse-glow 2s infinite;" onclick="playTopAvatarAudio()">
-              <img src="https://raw.githubusercontent.com/Smalltradesevo/cost-cal/main/assets/images/sexygirl.jpg" alt="AI Assistant" id="topAssistantAvatar" style="width: 200px; height: 200px; border-radius: 50%; object-fit: cover; border: 3px solid #667eea;">
-              <div id="topClickMeOverlay" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(255, 255, 255, 0.9); color: #667eea; padding: 8px 16px; border-radius: 20px; font-weight: bold; animation: flash 1.5s infinite; pointer-events: none;">
-                Click Me!
-              </div>
-            </div>
-          </div>
-
-        
-        <!-- Welcome Video -->
-        <div class="video-container">
-                   
-          <div class="video-placeholder welcome-video">
-            <div style="padding:177.92% 0 0 0;position:relative;"><iframe id="founderVideo" src="https://player.vimeo.com/video/1099257778?title=0&amp;byline=0&amp;portrait=0&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="intro"></iframe></div>
-          </div>
-        </div>
-      </div>
-    </header>
-
-    <div class="intro-banner" id="introBanner">
-      <div class="banner-content">
-        <h3>Ready to Calculate Your Freedom?</h3>
-        <p class="intro-text">This 5-step process will create your personalized roadmap to financial independence. You'll discover exactly how our referral system can fund your business, secure your family, and achieve your wildest dreams.</p>
-        
-        <!-- Female Avatar -->
-        <div class="avatar-container" style="position: relative; display: inline-block; cursor: pointer; border-radius: 50%; box-shadow: 0 0 20px rgba(102, 126, 234, 0.6), 0 0 40px rgba(102, 126, 234, 0.4), 0 0 60px rgba(102, 126, 234, 0.2); animation: pulse-glow 2s infinite;" onclick="playBottomAvatarAudio()">
-          <img src="https://raw.githubusercontent.com/Smalltradesevo/cost-cal/main/assets/images/sexygirl.jpg" alt="AI Assistant" id="bottomAssistantAvatar" style="width: 200px; height: 200px; border-radius: 50%; object-fit: cover; border: 3px solid #667eea;">
-          <div id="bottomClickMeOverlay" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(255, 255, 255, 0.9); color: #667eea; padding: 8px 16px; border-radius: 20px; font-weight: bold; animation: flash 1.5s infinite; pointer-events: none;">
-            Click Me!
-          </div>
-        </div>
-        
-        <button class="btn-dismiss" onclick="hideIntro()">Let's Build Your Future</button>
-      </div>
+    <div class="hero-section">
+        <h1 class="hero-title">Freedom Forecast Calculator</h1>
+        <p class="hero-subtitle">Discover exactly how many referrals you need to achieve complete financial freedom as an Elite Agent with Small Trades Evolution</p>
     </div>
 
-    <div class="dashboard-container" id="reportContainer">
-      <div class="progress-container">
-        <div class="progress-bar">
-          <div class="progress-fill" id="progressFill"></div>
-        </div>
-        <div class="progress-info">
-          <span class="progress-text" id="progressText">Step 1 of 5</span>
-          <div class="step-indicator" id="stepIndicator">
-            <div class="step-dot active"></div>
-            <div class="step-dot"></div>
-            <div class="step-dot"></div>
-            <div class="step-dot"></div>
-            <div class="step-dot"></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="content-area">
-        <!-- Step 1: Quick Info + Vision Board -->
-        <div id="step-1" class="step active">
-          <div class="step-header">
-            <h2 class="step-title">👋 Let's Get Started</h2>
-            <p class="step-subtitle">First, tell us who we're building this forecast for</p>
-          </div>
-          
-          <!-- Quick Lead Capture -->
-          <div class="lead-capture-section">
-            <div class="lead-form">
-              <div class="form-group">
-                <label class="form-label">What's your first name?</label>
-                <input type="text" id="firstName" class="form-input vision-input" placeholder="Enter your first name" onchange="checkVisionCompletion()">
-              </div>
-              <div class="form-group">
-                <label class="form-label">Mobile Phone</label>
-                <input type="tel" id="mobilePhone" class="form-input vision-input" placeholder="555-222-1234" onchange="checkVisionCompletion()">
-              </div>
-              <div class="form-group">
-                <label class="form-label">Tells us why you would make a great elite referral agent</label>
-                <input type="text" id="tradeType" class="form-input vision-input" placeholder="I am driven, hungry, want to be part of this movement" onchange="checkVisionCompletion()">
-              </div>
+    <div class="container">
+        <!-- Business Expenses Section -->
+        <div class="section">
+            <h2 class="section-title">💼 Business Expenses</h2>
+            <div class="expense-grid">
+                <div class="expense-item">
+                    <label for="vehicle">Vehicle Payment ($/month)</label>
+                    <input type="number" id="vehicle" placeholder="850">
+                </div>
+                <div class="expense-item">
+                    <label for="fuel">Fuel & Maintenance ($/month)</label>
+                    <input type="number" id="fuel" placeholder="400">
+                </div>
+                <div class="expense-item">
+                    <label for="insurance">Commercial Insurance ($/month)</label>
+                    <input type="number" id="insurance" placeholder="300">
+                </div>
+                <div class="expense-item">
+                    <label for="tools">Tools & Equipment ($/month)</label>
+                    <input type="number" id="tools" placeholder="200">
+                </div>
+                <div class="expense-item">
+                    <label for="materials">Materials & Supplies ($/month)</label>
+                    <input type="number" id="materials" placeholder="500">
+                </div>
+                <div class="expense-item">
+                    <label for="licensing">Licensing & Permits ($/month)</label>
+                    <input type="number" id="licensing" placeholder="100">
+                </div>
+                <div class="expense-item">
+                    <label for="marketing">Marketing & Advertising ($/month)</label>
+                    <input type="number" id="marketing" placeholder="250">
+                </div>
+                <div class="expense-item">
+                    <label for="software">Software & Apps ($/month)</label>
+                    <input type="number" id="software" placeholder="150">
+                </div>
             </div>
-          </div>
-          
-          <div class="section-divider">
-            <h3 class="divider-title">✨ Now Let's Paint Your Vision</h3>
-            <p class="divider-subtitle">Help us understand what financial freedom looks like for you</p>
-          </div>
-          
-          <div class="vision-grid">
-                      
-            <div class="vision-card">
-              <div class="card-decoration"></div>
-              <div class="vision-card-icon">🏡</div>
-              <label class="form-label">Dream Home</label>
-              <textarea class="form-textarea vision-input" rows="3" placeholder="4BR/3BA with pool, large kitchen, home office, mountain views..." onchange="checkVisionCompletion()"></textarea>
-              <div class="vision-hint">Bedrooms, bathrooms, special features, location, outdoor space...</div>
+            <div class="total-display">
+                <h3>Monthly Business Expenses</h3>
+                <div class="total-amount" id="businessTotal">$0</div>
             </div>
-            
-            <div class="vision-card">
-              <div class="card-decoration"></div>
-              <div class="vision-card-icon">🚗</div>
-              <label class="form-label">Vehicle Dreams</label>
-              <input type="text" class="form-input vision-input" placeholder="Tesla Model S, Ford F-150, family SUV, classic car..." onchange="checkVisionCompletion()">
-              <div class="vision-hint">Current cars, dream vehicles, recreational vehicles...</div>
-            </div>
-            
-            <div class="vision-card">
-              <div class="card-decoration"></div>
-              <div class="vision-card-icon">💪</div>
-              <label class="form-label">Health & Fitness Goals</label>
-              <textarea class="form-textarea vision-input" rows="3" placeholder="Daily workouts, healthy weight, energy for family activities, personal trainer..." onchange="checkVisionCompletion()"></textarea>
-              <div class="vision-hint">Fitness goals, nutrition plans, wellness routines, health investments...</div>
-            </div>
-            
-            <div class="vision-card">
-              <div class="card-decoration"></div>
-              <div class="vision-card-icon">🎯</div>
-              <label class="form-label">Hobbies & Passions</label>
-              <input type="text" class="form-input vision-input" placeholder="Golf, photography, cooking, reading, music, sports..." onchange="checkVisionCompletion()">
-              <div class="vision-hint">How do you love spending your free time? What brings you joy?</div>
-            </div>
-            
-            <div class="vision-card">
-              <div class="card-decoration"></div>
-              <div class="vision-card-icon">✈️</div>
-              <label class="form-label">Travel Dreams</label>
-              <textarea class="form-textarea vision-input" rows="2" placeholder="Europe annually, beach trips quarterly, Disney with kids, adventure travel..." onchange="checkVisionCompletion()"></textarea>
-              <div class="vision-hint">Frequency, destinations, travel style, bucket list experiences...</div>
-            </div>
-            
-            <div class="vision-card">
-              <div class="card-decoration"></div>
-              <div class="vision-card-icon">👨‍👩‍👧‍👦</div>
-              <label class="form-label">Family Goals</label>
-              <textarea class="form-textarea vision-input" rows="2" placeholder="Kids' college funds, family traditions, quality time, legacy building..." onchange="checkVisionCompletion()"></textarea>
-              <div class="vision-hint">Children, education, family experiences, generational wealth...</div>
-            </div>
-            
-            <div class="vision-card">
-              <div class="card-decoration"></div>
-              <div class="vision-card-icon">🛥️</div>
-              <label class="form-label">Recreational Investments</label>
-              <input type="text" class="form-input vision-input" placeholder="Boat, RV, motorcycles, skiing equipment, workshop tools..." onchange="checkVisionCompletion()">
-              <div class="vision-hint">Boats, recreational vehicles, hobby equipment, outdoor gear...</div>
-            </div>
-            
-            <div class="vision-card">
-              <div class="card-decoration"></div>
-              <div class="vision-card-icon">💰</div>
-              <label class="form-label">Financial Security</label>
-              <textarea class="form-textarea vision-input" rows="2" placeholder="Emergency fund, retirement savings, investment properties, passive income..." onchange="checkVisionCompletion()"></textarea>
-              <div class="vision-hint">Savings goals, investments, financial independence milestones...</div>
-            </div>
-            
-            <div class="vision-card">
-              <div class="card-decoration"></div>
-              <div class="vision-card-icon">💖</div>
-              <label class="form-label">Giving Back</label>
-              <textarea class="form-textarea vision-input" rows="2" placeholder="Local charities, church, children's causes, community development..." onchange="checkVisionCompletion()"></textarea>
-              <div class="vision-hint">Causes you care about, community involvement, philanthropic goals...</div>
-            </div>
-          </div>
-          
-          <!-- Completion Gate -->
-          <div id="completionGate" class="completion-gate" style="display: none;">
-            <div class="completion-message">
-              <h3>🎉 Vision Board Complete!</h3>
-              <p>Great job painting your vision! Now let's calculate how our referral system can make it reality.</p>
-            </div>
-          </div>
         </div>
 
-        <!-- Step 2: Business Expenses -->
-        <div id="step-2" class="step">
-          <!-- Avatar for Step 2 -->
-          <div style="text-align: center; margin-bottom: 20px;">
-            <div class="avatar-container" style="position: relative; display: inline-block; cursor: pointer; border-radius: 50%; box-shadow: 0 0 20px rgba(102, 126, 234, 0.6), 0 0 40px rgba(102, 126, 234, 0.4), 0 0 60px rgba(102, 126, 234, 0.2); animation: pulse-glow 2s infinite;" onclick="playStep2AvatarAudio()">
-              <img src="https://raw.githubusercontent.com/Smalltradesevo/cost-cal/main/assets/images/sexygirl.jpg" alt="AI Assistant" id="step2AssistantAvatar" style="width: 200px; height: 200px; border-radius: 50%; object-fit: cover; border: 3px solid #667eea;">
-              <div id="step2ClickMeOverlay" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(255, 255, 255, 0.9); color: #667eea; padding: 8px 16px; border-radius: 20px; font-weight: bold; animation: flash 1.5s infinite; pointer-events: none;">
-                Click Me!
-              </div>
+        <!-- Family Expenses Section -->
+        <div class="section">
+            <h2 class="section-title">👨‍👩‍👧‍👦 Family Expenses</h2>
+            <div class="expense-grid">
+                <div class="expense-item">
+                    <label for="mortgage">Mortgage/Rent ($/month)</label>
+                    <input type="number" id="mortgage" placeholder="2500">
+                </div>
+                <div class="expense-item">
+                    <label for="utilities">Utilities ($/month)</label>
+                    <input type="number" id="utilities" placeholder="300">
+                </div>
+                <div class="expense-item">
+                    <label for="groceries">Groceries ($/month)</label>
+                    <input type="number" id="groceries" placeholder="800">
+                </div>
+                <div class="expense-item">
+                    <label for="healthcare">Healthcare ($/month)</label>
+                    <input type="number" id="healthcare" placeholder="600">
+                </div>
+                <div class="expense-item">
+                    <label for="childcare">Childcare/Education ($/month)</label>
+                    <input type="number" id="childcare" placeholder="1200">
+                </div>
+                <div class="expense-item">
+                    <label for="entertainment">Entertainment ($/month)</label>
+                    <input type="number" id="entertainment" placeholder="400">
+                </div>
+                <div class="expense-item">
+                    <label for="clothing">Clothing ($/month)</label>
+                    <input type="number" id="clothing" placeholder="200">
+                </div>
+                <div class="expense-item">
+                    <label for="savings">Emergency Savings ($/month)</label>
+                    <input type="number" id="savings" placeholder="500">
+                </div>
             </div>
-          </div>
-          
-          <div class="step-header">
-            <h2 class="step-title">🔧 Business Expenses</h2>
-            <p class="step-subtitle">Enter your monthly business operational costs</p>
-          </div>
-          
-          <div class="form-grid">
-            <div class="form-group">
-              <label class="form-label">Cost of Goods Sold (COGS)</label>
-              <div class="currency-input">
-                <input type="number" id="cogs" class="form-input" placeholder="2500" min="0" step="1" oninput="calculateBusinessTotal()">
-              </div>
-              <div class="cost-hint">Materials, supplies, direct labor costs for your trade</div>
+            <div class="total-display">
+                <h3>Monthly Family Expenses</h3>
+                <div class="total-amount" id="familyTotal">$0</div>
             </div>
-            
-            <div class="form-group">
-              <label class="form-label">Tools & Equipment</label>
-              <div class="currency-input">
-                <input type="number" id="tools" class="form-input" placeholder="800" min="0" step="1" oninput="calculateBusinessTotal()">
-              </div>
-              <div class="cost-hint">Tool purchases, equipment maintenance, technology upgrades</div>
-            </div>
-            
-            <div class="form-group">
-              <label class="form-label">Fleet & Fuel</label>
-              <div class="currency-input">
-                <input type="number" id="fleet" class="form-input" placeholder="600" min="0" step="1" oninput="calculateBusinessTotal()">
-              </div>
-              <div class="cost-hint">Vehicle payments, fuel, maintenance, insurance</div>
-            </div>
-            
-            <div class="form-group">
-              <label class="form-label">Merchant Fees & Processing</label>
-              <div class="currency-input">
-                <input type="number" id="merchantFees" class="form-input" placeholder="200" min="0" step="1" oninput="calculateBusinessTotal()">
-              </div>
-              <div class="cost-hint">Payment processing, banking fees, software subscriptions</div>
-            </div>
-            
-            <div class="form-group">
-              <label class="form-label">Marketing & Advertising</label>
-              <div class="currency-input">
-                <input type="number" id="marketing" class="form-input" placeholder="500" min="0" step="1" oninput="calculateBusinessTotal()">
-              </div>
-              <div class="cost-hint">Ads, website, business cards, lead generation</div>
-            </div>
-            
-            <div class="form-group">
-              <label class="form-label">Insurance & Licensing</label>
-              <div class="currency-input">
-                <input type="number" id="insurance" class="form-input" placeholder="400" min="0" step="1" oninput="calculateBusinessTotal()">
-              </div>
-              <div class="cost-hint">Liability, bonding, permits, professional licenses</div>
-            </div>
-          </div>
-          
-          <!-- Business Expense Summary -->
-          <div class="cost-breakdown">
-            <h3>Monthly Business Expenses Summary</h3>
-            <div class="breakdown-item">
-              <span class="breakdown-label">Cost of Goods Sold</span>
-              <span class="breakdown-value" id="cogsDisplay">$0</span>
-            </div>
-            <div class="breakdown-item">
-              <span class="breakdown-label">Tools & Equipment</span>
-              <span class="breakdown-value" id="toolsDisplay">$0</span>
-            </div>
-            <div class="breakdown-item">
-              <span class="breakdown-label">Fleet & Fuel</span>
-              <span class="breakdown-value" id="fleetDisplay">$0</span>
-            </div>
-            <div class="breakdown-item">
-              <span class="breakdown-label">Merchant Fees</span>
-              <span class="breakdown-value" id="merchantDisplay">$0</span>
-            </div>
-            <div class="breakdown-item">
-              <span class="breakdown-label">Marketing</span>
-              <span class="breakdown-value" id="marketingDisplay">$0</span>
-            </div>
-            <div class="breakdown-item">
-              <span class="breakdown-label">Insurance</span>
-              <span class="breakdown-value" id="insuranceDisplay">$0</span>
-            </div>
-            <div class="breakdown-item total">
-              <span class="breakdown-label">Total Monthly Business Expenses</span>
-              <span class="breakdown-value" id="businessTotal">$0</span>
-            </div>
-          </div>
         </div>
 
-        <!-- Step 3: Personal & Family Expenses -->
-        <div id="step-3" class="step">
-          <!-- Avatar for Step 3 -->
-          <div style="text-align: center; margin-bottom: 20px;">
-            <div class="avatar-container" style="position: relative; display: inline-block; cursor: pointer; border-radius: 50%; box-shadow: 0 0 20px rgba(102, 126, 234, 0.6), 0 0 40px rgba(102, 126, 234, 0.4), 0 0 60px rgba(102, 126, 234, 0.2); animation: pulse-glow 2s infinite;" onclick="playStep3AvatarAudio()">
-              <img src="https://raw.githubusercontent.com/Smalltradesevo/cost-cal/main/assets/images/sexygirl.jpg" alt="AI Assistant" id="step3AssistantAvatar" style="width: 200px; height: 200px; border-radius: 50%; object-fit: cover; border: 3px solid #667eea;">
-              <div id="step3ClickMeOverlay" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(255, 255, 255, 0.9); color: #667eea; padding: 8px 16px; border-radius: 20px; font-weight: bold; animation: flash 1.5s infinite; pointer-events: none;">
-                Click Me!
-              </div>
+        <!-- Dream Life Vision Board Section -->
+        <div class="section">
+            <h2 class="section-title">✨ Dream Life Vision Board</h2>
+            <p style="text-align: center; font-size: 1.2rem; margin-bottom: 30px; font-style: italic; color: #7c3aed;">
+                "Intention without visualization is wishful thinking" - Your vision is your roadmap to freedom
+            </p>
+            <div class="expense-grid">
+                <div class="expense-item">
+                    <label for="vacations">Dream Vacations ($/year)</label>
+                    <input type="number" id="vacations" placeholder="25000">
+                </div>
+                <div class="expense-item">
+                    <label for="dadstoys">Dad's Toys - Cars, Bikes, Hobbies ($/year)</label>
+                    <input type="number" id="dadstoys" placeholder="15000">
+                </div>
+                <div class="expense-item">
+                    <label for="dreamhome">Dream Home Upgrade ($/year)</label>
+                    <input type="number" id="dreamhome" placeholder="20000">
+                </div>
+                <div class="expense-item">
+                    <label for="boat">Runabout Boat & Water Sports ($/year)</label>
+                    <input type="number" id="boat" placeholder="12000">
+                </div>
+                <div class="expense-item">
+                    <label for="giving">Giving Back - Charity/Community ($/year)</label>
+                    <input type="number" id="giving" placeholder="10000">
+                </div>
+                <div class="expense-item">
+                    <label for="investments">Investment Goals ($/year)</label>
+                    <input type="number" id="investments" placeholder="30000">
+                </div>
             </div>
-          </div>
-          
-          <div class="step-header">
-            <h2 class="step-title">🏠 Personal & Family Expenses</h2>
-            <p class="step-subtitle">Enter your monthly personal and family costs</p>
-          </div>
-          
-          <div class="form-grid">
-            <div class="form-group">
-              <label class="form-label">Housing (Rent/Mortgage)</label>
-              <div class="currency-input">
-                <input type="number" id="housing" class="form-input" placeholder="2000" min="0" step="1" oninput="calculatePersonalTotal()">
-              </div>
-              <div class="cost-hint">Rent, mortgage, property taxes, HOA fees</div>
+            <div class="total-display">
+                <h3>Annual Dream Life Investment</h3>
+                <div class="total-amount" id="dreamTotal">$0</div>
             </div>
-            
-            <div class="form-group">
-              <label class="form-label">Utilities & Services</label>
-              <div class="currency-input">
-                <input type="number" id="utilities" class="form-input" placeholder="300" min="0" step="1" oninput="calculatePersonalTotal()">
-              </div>
-              <div class="cost-hint">Electric, gas, water, internet, phone, streaming</div>
-            </div>
-            
-            <div class="form-group">
-              <label class="form-label">Food & Groceries</label>
-              <div class="currency-input">
-                <input type="number" id="food" class="form-input" placeholder="800" min="0" step="1" oninput="calculatePersonalTotal()">
-              </div>
-              <div class="cost-hint">Groceries, dining out, family meals</div>
-            </div>
-            
-            <div class="form-group">
-              <label class="form-label">Transportation</label>
-              <div class="currency-input">
-                <input type="number" id="transportation" class="form-input" placeholder="600" min="0" step="1" oninput="calculatePersonalTotal()">
-              </div>
-              <div class="cost-hint">Personal vehicle payments, fuel, maintenance</div>
-            </div>
-            
-            <div class="form-group">
-              <label class="form-label">Healthcare & Medical</label>
-              <div class="currency-input">
-                <input type="number" id="healthcare" class="form-input" placeholder="400" min="0" step="1" oninput="calculatePersonalTotal()">
-              </div>
-              <div class="cost-hint">Insurance premiums, medications, doctor visits</div>
-            </div>
-            
-            <div class="form-group">
-              <label class="form-label">Entertainment & Recreation</label>
-              <div class="currency-input">
-                <input type="number" id="entertainment" class="form-input" placeholder="500" min="0" step="1" oninput="calculatePersonalTotal()">
-              </div>
-              <div class="cost-hint">Movies, sports, hobbies, family activities</div>
-            </div>
-          </div>
-          
-          <!-- Personal Expense Summary -->
-          <div class="cost-breakdown">
-            <h3>Monthly Personal & Family Expenses</h3>
-            <div class="breakdown-item">
-              <span class="breakdown-label">Housing</span>
-              <span class="breakdown-value" id="housingDisplay">$0</span>
-            </div>
-            <div class="breakdown-item">
-              <span class="breakdown-label">Utilities</span>
-              <span class="breakdown-value" id="utilitiesDisplay">$0</span>
-            </div>
-            <div class="breakdown-item">
-              <span class="breakdown-label">Food</span>
-              <span class="breakdown-value" id="foodDisplay">$0</span>
-            </div>
-            <div class="breakdown-item">
-              <span class="breakdown-label">Transportation</span>
-              <span class="breakdown-value" id="transportationDisplay">$0</span>
-            </div>
-            <div class="breakdown-item">
-              <span class="breakdown-label">Healthcare</span>
-              <span class="breakdown-value" id="healthcareDisplay">$0</span>
-            </div>
-            <div class="breakdown-item">
-              <span class="breakdown-label">Entertainment</span>
-              <span class="breakdown-value" id="entertainmentDisplay">$0</span>
-            </div>
-            <div class="breakdown-item total">
-              <span class="breakdown-label">Total Monthly Personal Expenses</span>
-              <span class="breakdown-value" id="personalTotal">$0</span>
-            </div>
-          </div>
         </div>
 
-        <!-- Step 4: Referral Income Calculator -->
-        <div id="step-4" class="step">
-          <!-- Avatar for Step 4 -->
-          <div style="text-align: center; margin-bottom: 20px;">
-            <div class="avatar-container" style="position: relative; display: inline-block; cursor: pointer; border-radius: 50%; box-shadow: 0 0 20px rgba(102, 126, 234, 0.6), 0 0 40px rgba(102, 126, 234, 0.4), 0 0 60px rgba(102, 126, 234, 0.2); animation: pulse-glow 2s infinite;" onclick="playStep4AvatarAudio()">
-              <img src="https://raw.githubusercontent.com/Smalltradesevo/cost-cal/main/assets/images/sexygirl.jpg" alt="AI Assistant" id="step4AssistantAvatar" style="width: 200px; height: 200px; border-radius: 50%; object-fit: cover; border: 3px solid #667eea;">
-              <div id="step4ClickMeOverlay" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(255, 255, 255, 0.9); color: #667eea; padding: 8px 16px; border-radius: 20px; font-weight: bold; animation: flash 1.5s infinite; pointer-events: none;">
-                Click Me!
-              </div>
+        <!-- Results Section -->
+        <div class="results-section">
+            <h2 style="font-size: 2.5rem; margin-bottom: 30px; color: #1e293b;">🎯 Your Path to Freedom</h2>
+            
+            <div class="tier-grid">
+                <div class="tier-card">
+                    <div class="tier-title">Business Covered</div>
+                    <div class="tier-income" id="businessTime">7 months</div>
+                    <div class="tier-timeline">As Elite Agent earning $274K/year</div>
+                </div>
+                <div class="tier-card">
+                    <div class="tier-title">Business + Family Secured</div>
+                    <div class="tier-income" id="familyTime">14 months</div>
+                    <div class="tier-timeline">Total financial security achieved</div>
+                </div>
+                <div class="tier-card">
+                    <div class="tier-title">Complete Dream Life</div>
+                    <div class="tier-income" id="dreamTime">29 months</div>
+                    <div class="tier-timeline">Living your absolute best life</div>
+                </div>
             </div>
-          </div>
-          
-          <div class="step-header">
-            <h2 class="step-title">💰 Your Referral Income Potential</h2>
-            <p class="step-subtitle">Based on Small Trades Evolution's proven commission structure</p>
-          </div>
-          
-          <div class="results-card">
-            <h3 class="results-title">Choose Your Performance Level</h3>
-            <div class="results-grid">
-              <div class="result-item tier-1" onclick="selectTier(1)">
-                <div class="result-label">Starter Level</div>
-                <div class="result-value">$12,505</div>
-                <div class="result-time">100 Referrals</div>
-                <div class="result-earning">1.00% Bonus Rate</div>
-              </div>
-              
-              <div class="result-item tier-2" onclick="selectTier(2)">
-                <div class="result-label">Active Level</div>
-                <div class="result-value">$60,026</div>
-                <div class="result-time">200 + 920 Elite</div>
-                <div class="result-earning">1.25% + 0.25% Bonus</div>
-              </div>
-              
-              <div class="result-item tier-3" onclick="selectTier(3)">
-                <div class="result-label">Elite Level</div>
-                <div class="result-value">$300,130</div>
-                <div class="result-time">300 + 1380 Elite</div>
-                <div class="result-earning">2.25% + 1.25% Bonus</div>
-              </div>
+
+            <div style="background: linear-gradient(135deg, #fbbf24, #f59e0b); padding: 30px; border-radius: 15px; margin: 30px 0; color: #1e293b;">
+                <h3 style="font-size: 1.8rem; margin-bottom: 20px; font-weight: 700;">💰 Your Total Freedom Investment</h3>
+                <div style="font-size: 3rem; font-weight: 700; color: #1e293b;" id="totalNeeded">$0</div>
+                <p style="font-size: 1.2rem; margin-top: 15px; font-weight: 500;">Annual income needed to live your dream life</p>
             </div>
-          </div>
-          
-          <!-- Selected Tier Details -->
-          <div id="tierDetails" class="cost-breakdown" style="display: none;">
-            <h3 id="selectedTierTitle">Performance Level Details</h3>
-            <div class="breakdown-item">
-              <span class="breakdown-label">Direct Referrals Needed</span>
-              <span class="breakdown-value" id="directReferrals">0</span>
+        </div>
+
+        <!-- Elite Agent Showcase -->
+        <div class="elite-showcase">
+            <div class="cta-content">
+                <h2 class="elite-title">🏆 Join America's Elite Referral Agents</h2>
+                <p style="font-size: 1.3rem; margin-bottom: 30px; opacity: 0.95;">
+                    You've seen the numbers. Now see what our Elite Agents are achieving...
+                </p>
+                
+                <div class="elite-stats">
+                    <div class="elite-stat">
+                        <div class="elite-stat-number">$274K</div>
+                        <div class="elite-stat-label">Year 1 Elite Agent Income</div>
+                    </div>
+                    <div class="elite-stat">
+                        <div class="elite-stat-number">$498K</div>
+                        <div class="elite-stat-label">Year 2 Elite Agent Income</div>
+                    </div>
+                    <div class="elite-stat">
+                        <div class="elite-stat-number">$700K+</div>
+                        <div class="elite-stat-label">Year 3 Elite Agent Income</div>
+                    </div>
+                    <div class="elite-stat">
+                        <div class="elite-stat-number">25</div>
+                        <div class="elite-stat-label">Elite Positions Available</div>
+                    </div>
+                </div>
             </div>
-            <div class="breakdown-item">
-              <span class="breakdown-label">Elite Referrals Needed</span>
-              <span class="breakdown-value" id="eliteReferrals">0</span>
+        </div>
+
+        <!-- Main CTA Hero Section -->
+        <div class="cta-hero">
+            <div class="cta-content">
+                <h2 class="cta-title">Ready to Build Your Empire?</h2>
+                <p class="cta-subtitle">
+                    Stop trading time for money. Start building a referral network that pays you for life. 
+                    Join the 25 Elite Agents who are changing their lives forever.
+                </p>
+                
+                <div class="cta-buttons">
+                    <a href="/agent-register" class="cta-button">
+                        <span class="cta-button-icon">🚀</span>
+                        <span>Become an Elite Agent</span>
+                    </a>
+                    <a href="/register" class="cta-button">
+                        <span class="cta-button-icon">👥</span>
+                        <span>Join as Member</span>
+                    </a>
+                </div>
+
+                <p style="font-size: 1.1rem; opacity: 0.9; margin-bottom: 20px;">
+                    <strong>Limited Time:</strong> First 25 Elite Agents get exclusive territory rights
+                </p>
             </div>
-            <div class="breakdown-item">
-              <span class="breakdown-label">Monthly Income Potential</span>
-              <span class="breakdown-value" id="monthlyIncome">$0</span>
+        </div>
+
+        <!-- Guarantee Section -->
+        <div class="guarantee-section">
+            <h3 class="guarantee-title">💎 Our Iron-Clad Guarantee</h3>
+            <p class="guarantee-text">
+                We guarantee these results if you follow our system with the 4 D's:
+            </p>
+            
+            <div class="four-ds">
+                <div class="d-item">Desire</div>
+                <div class="d-item">Devotion</div>
+                <div class="d-item">Dedication</div>
+                <div class="d-item">Determination</div>
             </div>
+        </div>
+    </div>
+
+    <script>
+        // Calculate totals using REAL ST-EVO commission structure
+        function calculateTotals() {
+            // Business expenses
+            const businessExpenses = [
+                'vehicle', 'fuel', 'insurance', 'tools', 
+                'materials', 'licensing', 'marketing', 'software'
+            ];
+            
+            let businessTotal = 0;
+            businessExpenses.forEach(id => {
+                const value = parseFloat(document.getElementById(id).value) || 0;
+                businessTotal += value;
+            });
+            
+            // Family expenses
+            const familyExpenses = [
+                'mortgage', 'utilities', 'groceries', 'healthcare',
+                'childcare', 'entertainment', 'clothing', 'savings'
+            ];
+            
+            let familyTotal = 0;
+            familyExpenses.forEach(id => {
+                const value = parseFloat(document.getElementById(id).value) || 0;
+                familyTotal += value;
+            });
+            
+            // Dream life expenses (annual)
+            const dreamExpenses = [
+                'vacations', 'dadstoys', 'dreamhome', 'boat', 'giving', 'investments'
+            ];
+            
+            let dreamTotal = 0;
+            dreamExpenses.forEach(id => {
+                const value = parseFloat(document.getElementById(id).value) || 0;
+                dreamTotal += value;
+            });
+            
+            // Update displays
+            document.getElementById('businessTotal').textContent = '$' + businessTotal.toLocaleString();
+            document.getElementById('familyTotal').textContent = '$' + familyTotal.toLocaleString();
+            document.getElementById('dreamTotal').textContent = '$' + dreamTotal.toLocaleString();
+            
+            // Calculate total annual need
+            const totalAnnual = (businessTotal + familyTotal) * 12 + dreamTotal;
+            document.getElementById('totalNeeded').textContent = '$' + totalAnnual.toLocaleString();
+            
+            // Calculate timelines based on Elite Agent earnings
+            const eliteYear1 = 274000;
+            const eliteYear2 = 498000;
+            const eliteYear3 = 700000;
+            
+            const businessAnnual = businessTotal * 12;
+            const familyAnnual = familyTotal * 12;
+            const businessFamilyAnnual = businessAnnual + familyAnnual;
+            
+            // Business Coverage Timeline
+            let businessMonths;
+            if (businessAnnual <= eliteYear1) {
+                businessMonths = Math.ceil((businessAnnual / eliteYear1) * 12);
+            } else {
+                businessMonths = 12 + Math.ceil(((businessAnnual - eliteYear1) / eliteYear2) * 12);
+            }
+            
+            // Business + Family Timeline
+            let familyMonths;
+            if (businessFamilyAnnual <= eliteYear1) {
+                familyMonths = Math.ceil((businessFamilyAnnual / eliteYear1) * 12);
+            } else if (businessFamilyAnnual <= eliteYear2) {
+                familyMonths = 12 + Math.ceil(((businessFamilyAnnual - eliteYear1) / (eliteYear2 - eliteYear1)) * 12);
+            } else {
+                familyMonths = 24 + Math.ceil(((businessFamilyAnnual - eliteYear2) / (eliteYear3 - eliteYear2)) * 12);
+            }
+            
+            // Complete Dream Life Timeline
+            let dreamMonths;
+            if (totalAnnual <= eliteYear1) {
+                dreamMonths = Math.ceil((totalAnnual / eliteYear1) * 12);
+            } else if (totalAnnual <= eliteYear2) {
+                dreamMonths = 12 + Math.ceil(((totalAnnual - eliteYear1) / (eliteYear2 - eliteYear1)) * 12);
+            } else if (totalAnnual <= eliteYear3) {
+                dreamMonths = 24 + Math.ceil(((totalAnnual - eliteYear2) / (eliteYear3 - eliteYear2)) * 12);
+            } else {
+                dreamMonths = 36;
+            }
+            
+            document.getElementById('businessTime').textContent = businessMonths + ' months';
+            document.getElementById('familyTime').textContent = familyMonths + ' months';
+            document.getElementById('dreamTime').textContent = dreamMonths + ' months';
+        }
+        
+        // Add event listeners to all inputs
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputs = document.querySelectorAll('input[type="number"]');
+            inputs.forEach(input => {
+                input.addEventListener('input', calculateTotals);
+            });
+            
+            // Initial calculation
+            calculateTotals();
+        });
+    </script>
+</body>
+</html>
